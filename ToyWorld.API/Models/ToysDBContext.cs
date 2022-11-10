@@ -39,7 +39,7 @@ namespace ToyWorld.API.Models
 
                 entity.Property(e => e.ImageUrl)
                     .IsRequired()
-                    .HasMaxLength(100);
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.Name)
                     .IsRequired()

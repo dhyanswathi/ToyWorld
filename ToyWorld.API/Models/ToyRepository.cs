@@ -16,8 +16,12 @@
 
         public void Delete(int id)
         {
-            _context.Remove(id);
-            Save();
+            var item = GetById(id);
+            if(item != null)
+            {
+                 _context.Remove(item);
+                  Save();
+            }
         }
 
         public IEnumerable<Toy> GetAll()

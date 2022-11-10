@@ -8,7 +8,7 @@ namespace ToyWorld.API.DTO
         public string? Name { get; set; }
         [Required, MaxLength(200)]
         public string? Description { get; set; }
-        [Required, MaxLength(100)]
+        [Required, MaxLength(200)]
         public string? ImageUrl { get; set; }
     }
 }
