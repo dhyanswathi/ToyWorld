@@ -6,7 +6,7 @@ want new ones. It was costing us money and space. Thats how i came up with this 
 
 ## Toyworld API
  This repo contains the backend part of this app.
- You can find the front-end part here:
+ You can find the front-end part here: https://github.com/dhyanswathi/ToyWorld-Front-end
  
  ## Setup and tools
  You need to have docker installed. Clone this repo.
@@ -39,6 +39,6 @@ Cd into the ToyWorld.API folder. Run this command for starting the API.
 dotnet run
 ```
 ## Running the app
-After you have the API and DB up and running, go to the frontend repo and follow the instructions in readme file there.
+After you have the API and DB up and running, go to the frontend repo (https://github.com/dhyanswathi/ToyWorld-Front-end) and follow the instructions in readme file there.
 
 Happy Browsing!
