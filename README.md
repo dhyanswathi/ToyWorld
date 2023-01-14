@@ -1,9 +1,10 @@
 # ToyWorld
 
 Toyworld is an app for toy exchange. Here you can buy and sell preloved toys.
-Being a parent, one of the challenges I am facing is, my kid getting bored of his toys. Our house is filled with a million toys and he still
-want new ones. It was costing us money and space. Thats how i came up with this idea of toy swapping. 
-
+ 
+ ## Scenario
+During my days in salt bootcamp, we had a personal hack day. We had to create a full-stack application in one day. I was brainstorming for ideas and decided to address a real life problem. Being a parent, one of the challenges I am facing is, my kid getting bored of his toys. Our house is filled with a million toys and he still want new ones. It was costing us money and space. Thats how i came up with this idea of toy swapping.
+      
 ## Toyworld API
  This repo contains the backend part of this app.
  You can find the front-end part here: https://github.com/dhyanswathi/ToyWorld-Front-end
