@@ -8,8 +8,8 @@ namespace ToyWorld.API.Controllers
     [ApiController]
     public class ToysController : ControllerBase
     {
-        private ToyRepository _repo;
-        public ToysController(ToyRepository repo)
+        private IToyRepository _repo;
+        public ToysController(IToyRepository repo)
         {
             _repo = repo;
         }
