@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 builder.Services.AddDbContext<ToysDBContext>();
-builder.Services.AddTransient<ToyRepository>();
+builder.Services.AddTransient<IToyRepository, ToyRepository>();
 
 var app = builder.Build();
 
