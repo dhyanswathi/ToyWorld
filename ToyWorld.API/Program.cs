@@ -1,4 +1,5 @@
 using ToyWorld.API.Models;
+using ToyWorld.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddCors();
 
 builder.Services.AddDbContext<ToysDBContext>();
 builder.Services.AddTransient<IToyRepository, ToyRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 
