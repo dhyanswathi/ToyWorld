@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NETCore.MailKit.Core;
 using ToyWorld.API.Models;
+using ToyWorld.API.Services;
 
 namespace ToyWorld.API.Controllers
 {
@@ -9,9 +11,11 @@ namespace ToyWorld.API.Controllers
     public class ToysController : ControllerBase
     {
         private IToyRepository _repo;
-        public ToysController(IToyRepository repo)
+        private Services.IEmailService _email;
+        public ToysController(IToyRepository repo, Services.IEmailService email)
         {
             _repo = repo;
+            _email = email;
         }
 
         [HttpGet]
@@ -70,6 +74,14 @@ namespace ToyWorld.API.Controllers
                 
                 _repo.Update(toy);
             }
+        }
+
+        [HttpPost]
+        [Route("sendEmail")]
+        public async Task<ActionResult> SendEmailTo(MailRequest request)
+        {
+            await _email.SendEmail(request);
+            return Ok();
         }
 
         [HttpDelete]
