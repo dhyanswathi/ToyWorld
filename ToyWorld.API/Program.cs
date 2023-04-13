@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using ToyWorld.API.Models;
 using ToyWorld.API.Services;
 
@@ -6,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<ToysDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ToysContext") ?? throw new InvalidOperationException("Connection string 'ToysContext' not found.")));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
