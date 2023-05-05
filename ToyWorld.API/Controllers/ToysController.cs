@@ -62,7 +62,7 @@ namespace ToyWorld.API.Controllers
             return CreatedAtAction(nameof(GetToyById), new { id = id }, toyDto);
         }
 
-        [HttpPatch]
+        [HttpPut]
         public void UpdateToy(DTO.Toy toyDto, int id)
         {
             var toy = _repo.GetById(id);
