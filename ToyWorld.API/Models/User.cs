@@ -5,14 +5,18 @@ using System.Collections.Generic;
 
 namespace ToyWorld.API.Models
 {
-    public partial class Toy
+    public partial class User
     {
+        public User()
+        {
+            Toys = new HashSet<Toy>();
+        }
+
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public byte[] ImageUrl { get; set; }
-        public Guid UserId { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual ICollection<Toy> Toys { get; set; }
     }
 }

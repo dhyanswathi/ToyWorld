@@ -18,23 +18,47 @@ namespace ToyWorld.API.Models
         {
         }
 
-        public virtual DbSet<Toy> Toy { get; set; }
+        public virtual DbSet<Toy> Toys { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Toy>(entity =>
             {
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.ToTable("Toy");
 
-                entity.Property(e => e.ImageUrl)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Description).IsRequired();
+
+                entity.Property(e => e.ImageUrl).IsRequired();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Toys)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Toy__UserId__5FB337D6");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("User");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Email).IsRequired();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(25);
             });
 
             OnModelCreatingPartial(modelBuilder);
