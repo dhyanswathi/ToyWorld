@@ -8,7 +8,7 @@ During my days in salt bootcamp, we had a personal hack day. We had to create a 
 ## Toyworld API
  This repo contains the backend part of this app.
  You can find the front-end part here: https://github.com/dhyanswathi/ToyWorld-Front-end.
- I used DB-first approach in the project. Tables were created in database and Entity data model is generated from it vis reverse engineering.
+ I used DB-first approach in the project. Tables were created in database and Entity data model is generated from it via reverse engineering.
 
 ## Tech-stack & Tools
 C#, ASP.Net WebAPI, Entity Framework, SQL Server, Docker for hosting DB, Visual Studio, Azure Data Studio  
