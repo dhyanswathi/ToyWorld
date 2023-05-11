@@ -7,14 +7,14 @@
         {
             _context = context;
         }
-        public int Add(Toy item)
+        public Guid Add(Toy item)
         {
             _context.Add(item);
             Save();
             return item.Id;
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             var item = GetById(id);
             if(item != null)
@@ -26,12 +26,12 @@
 
         public IEnumerable<Toy> GetAll()
         {
-            return _context.Toy;
+            return _context.Toys;
         }
 
-        public Toy? GetById(int id)
+        public Toy? GetById(Guid id)
         {
-            return _context.Toy.FirstOrDefault(x => x.Id == id);
+            return _context.Toys.FirstOrDefault(x => x.Id == id);
         }
 
         public void Save()

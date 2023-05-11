@@ -31,7 +31,7 @@ namespace ToyWorld.API.Models
 
                 entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.ImageUrl).IsRequired();
+                entity.Property(e => e.Image).IsRequired();
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -58,7 +58,7 @@ namespace ToyWorld.API.Models
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasMaxLength(25);
+                    .HasMaxLength(20);
             });
 
             OnModelCreatingPartial(modelBuilder);

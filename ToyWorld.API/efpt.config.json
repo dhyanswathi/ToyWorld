@@ -23,10 +23,11 @@
          "ObjectType": 0
       }
    ],
-   "UiHint": "c79a40492260.ToysDB",
+   "UiHint": "c79a40492260.ToysDB.dbo",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": false,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,

@@ -3,10 +3,10 @@
     public interface IRepository<T>
     {
         IEnumerable<T> GetAll();
-        T? GetById(int id);
-        int Add(T item);
+        T? GetById(Guid id);
+        Guid Add(T item);
         void Update(T item);
-        void Delete(int id);
+        void Delete(Guid id);
         void Save();
     }
 }
