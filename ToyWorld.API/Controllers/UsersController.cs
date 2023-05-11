@@ -16,17 +16,10 @@ namespace ToyWorld.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUser(Guid id)
+        public IActionResult GetUsers()
         {
-            try
-            {
-                var user = _repo.GetUserById(id);
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.ToString());
-            }
+            var result = _repo.GetAllUsers().ToList();
+            return Ok(result);
         }
 
         [HttpPost("register")]

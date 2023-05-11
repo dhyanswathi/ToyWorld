@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.MailKit.Core;
 using ToyWorld.API.DTO;
@@ -46,8 +47,8 @@ namespace ToyWorld.API.Controllers
         [HttpPost]
         public IActionResult AddToy(ToyRequest toyDto)
         {
-            var id = _repo.CreateToy(toyDto);
-            return CreatedAtAction(nameof(GetToyById), new { id = id }, toyDto);
+            var result = _repo.CreateToy(toyDto);
+            return Created("", result);
         }
 
 

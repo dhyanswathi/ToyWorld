@@ -16,7 +16,8 @@ namespace ToyWorld.API.Models
             {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
-                Description = request.Description
+                Description = request.Description,
+                UserId = request.UserId,
             };
 
             _context.Toys.Add(toy);
