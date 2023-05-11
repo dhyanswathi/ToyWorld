@@ -31,7 +31,7 @@ namespace ToyWorld.API.Models
 
                 entity.Property(e => e.Description).IsRequired();
 
-                entity.Property(e => e.Image).IsRequired();
+                entity.Property(e => e.Image);
 
                 entity.Property(e => e.Name)
                     .IsRequired()

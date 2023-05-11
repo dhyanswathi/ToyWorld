@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NETCore.MailKit.Core;
+using ToyWorld.API.DTO;
 using ToyWorld.API.Models;
 using ToyWorld.API.Services;
 
@@ -19,62 +20,36 @@ namespace ToyWorld.API.Controllers
         }
 
         [HttpGet]
-        public List<DTO.Toy> GetToys()
+        public List<ToyResponse> GetToys()
         {
-            return _repo.GetAll()
-                .Select(x => new DTO.Toy()
-                {
-                    Name = x.Name,
-                    Description = x.Description,
-                    ImageUrl = x.ImageUrl
-                }).ToList();
+            return _repo.GetAllToys().ToList();
         }
 
         [HttpGet("Id")]
-        public DTO.Toy? GetToyById(int Id)
+        public Toy? GetToyById(Guid Id)
         {
-            var toy = _repo.GetById(Id);
+            var toy = _repo.GetToy(Id);
 
             if (toy == null)
             {
-                return new DTO.Toy();
+                return new Toy();
             }
 
-            return new DTO.Toy()
+            return new Toy()
             {
                 Name = toy.Name,
                 Description = toy.Description,
-                ImageUrl = toy.ImageUrl
+                Image = toy.Image
             };
         }
 
         [HttpPost]
-        public IActionResult AddToy(DTO.Toy toyDto)
+        public IActionResult AddToy(ToyRequest toyDto)
         {
-            var toy = new Toy()
-            {
-                Name = toyDto.Name,
-                Description = toyDto.Description,
-                ImageUrl = toyDto.ImageUrl
-            };
-
-            var id = _repo.Add(toy);
+            var id = _repo.CreateToy(toyDto);
             return CreatedAtAction(nameof(GetToyById), new { id = id }, toyDto);
         }
 
-        [HttpPut]
-        public void UpdateToy(DTO.Toy toyDto, int id)
-        {
-            var toy = _repo.GetById(id);
-            if (toy != null)
-            {
-                toy.Name = toyDto.Name;
-                toy.Description = toyDto.Description;
-                toy.ImageUrl = toyDto.ImageUrl;
-                
-                _repo.Update(toy);
-            }
-        }
 
         [HttpPost]
         [Route("sendEmail")]
@@ -85,9 +60,31 @@ namespace ToyWorld.API.Controllers
         }
 
         [HttpDelete]
-        public void DeleteStudent(int Id)
+        public void DeleteStudent(Guid Id)
         {
-            _repo.Delete(Id);
+            _repo.DeleteToy(Id);
+        }
+
+        [HttpPut]
+        [Route("image/{id}")]
+        public async Task<ActionResult> AddCv([FromForm] FileUploadModel file, Guid id)
+        {
+            if ( _repo.GetToy(id) == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                 _repo.UploadImage(file, id);
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return BadRequest("File too big, 4Mb limit");
+            }
+
         }
     }
 }
