@@ -1,4 +1,6 @@
-﻿namespace ToyWorld.API.Models
+﻿using ToyWorld.API.DTO;
+
+namespace ToyWorld.API.Models
 {
     public class ToyRepository : IToyRepository
     {
@@ -7,42 +9,64 @@
         {
             _context = context;
         }
-        public int Add(Toy item)
-        {
-            _context.Add(item);
-            Save();
-            return item.Id;
-        }
 
-        public void Delete(int id)
+        public Toy CreateToy(ToyRequest request)
         {
-            var item = GetById(id);
-            if(item != null)
+            var toy = new Toy()
             {
-                 _context.Remove(item);
-                  Save();
-            }
+                Id = Guid.NewGuid(),
+                Name = request.Name,
+                Description = request.Description,
+                UserId = request.UserId,
+            };
+
+            _context.Toys.Add(toy);
+            SaveToy();
+            return toy;
         }
 
-        public IEnumerable<Toy> GetAll()
+        public void DeleteToy(Guid id)
         {
-            return _context.Toy;
+            var toy = GetToy(id);
+            _context.Toys.Remove(toy);
         }
 
-        public Toy? GetById(int id)
+        public IEnumerable<ToyResponse> GetAllToys()
         {
-            return _context.Toy.FirstOrDefault(x => x.Id == id);
+            return _context.Toys.Select(x => new ToyResponse() 
+            { 
+                Id = x.Id, 
+                Name = x.Name, 
+                Description = x.Description,
+                Image = x.Image
+            }).ToList();
         }
 
-        public void Save()
+        public Toy? GetToy(Guid id)
+        {
+            return _context.Toys.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void SaveToy()
         {
             _context.SaveChanges();
         }
 
-        public void Update(Toy item)
+        public Byte[] AddImage(IFormFile model)
         {
-            _context.Update(item);
-            Save();
+            var stream = new MemoryStream();
+            model.CopyTo(stream);
+
+            return stream.ToArray();
+        }
+
+        public void UploadImage(FileUploadModel model, Guid id)
+        {
+            var toy = GetToy(id);
+           var stream = AddImage(model.FileDetails);
+            toy.Image = stream;
+            SaveToy();
+
         }
     }
 

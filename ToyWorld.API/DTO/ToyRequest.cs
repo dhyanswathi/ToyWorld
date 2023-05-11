@@ -2,13 +2,13 @@
 
 namespace ToyWorld.API.DTO
 {
-    public class Toy
+    public class ToyRequest
     {
         [Required]
         public string? Name { get; set; }
         [Required, MaxLength(200)]
         public string? Description { get; set; }
-        [Required, MaxLength(200)]
-        public string? ImageUrl { get; set; }
+
+        public Guid UserId { get; set; }
     }
 }

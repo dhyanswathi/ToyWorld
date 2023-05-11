@@ -18,6 +18,7 @@ builder.Services.AddCors();
 
 builder.Services.AddDbContext<ToysDBContext>();
 builder.Services.AddTransient<IToyRepository, ToyRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
