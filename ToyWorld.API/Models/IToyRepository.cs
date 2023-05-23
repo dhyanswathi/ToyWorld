@@ -4,12 +4,12 @@ namespace ToyWorld.API.Models
 {
     public interface IToyRepository 
     {
-        void SaveToy();
-        IEnumerable<ToyResponse> GetAllToys();
-        Toy? GetToy(Guid id);
-        Toy CreateToy(ToyRequest request);
-        void DeleteToy(Guid id);
-        void UploadImage(FileUploadModel model, Guid id);
+        Task SaveToy();
+        Task<List<ToyResponse>> GetAllToys();
+        Task<Toy?> GetToy(Guid id);
+        Task<Toy> CreateToy(ToyRequest request);
+        Task DeleteToy(Guid id);
+        Task UploadImage(FileUploadModel model, Guid id);
 
     }
 }
