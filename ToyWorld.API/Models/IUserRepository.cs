@@ -4,11 +4,11 @@ namespace ToyWorld.API.Models
 {
     public interface IUserRepository
     {
-        User? GetUserById(Guid id);
-        IEnumerable<User> GetAllUsers();
-        User Register(UserRegister registerUser);
-        void DeleteUser(Guid id);
-        void UpdateUser(Guid id, UserRegister updateUser);
-        void SaveUser();
+        Task<User?> GetUserById(Guid id);
+        Task<List<User>> GetAllUsers();
+        Task<User> Register(UserRegister registerUser);
+        Task DeleteUser(Guid id);
+        Task UpdateUser(Guid id, UserRegister updateUser);
+        Task SaveUser();
     }
 }

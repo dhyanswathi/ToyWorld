@@ -10,27 +10,27 @@ namespace ToyWorld.API.Models
         {
             _context = context;
         }
-        public void DeleteUser(Guid id)
+        public async Task DeleteUser(Guid id)
         {
-            var user = GetUserById(id);
+            var user = await GetUserById(id);
             if (user != null)
             {
                 _context.Users.Remove(user);
-                SaveUser();
+                await SaveUser();
             }
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<List<User>> GetAllUsers()
         {
-            return _context.Users;
+            return await _context.Users.ToListAsync();
         }
 
-        public User? GetUserById(Guid id)
+        public async Task<User?> GetUserById(Guid id)
         {
-            return _context.Users.FirstOrDefault(x => x.Id == id);
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public User Register(UserRegister registerUser)
+        public async Task<User> Register(UserRegister registerUser)
         {
             var user = new User
             {
@@ -40,27 +40,27 @@ namespace ToyWorld.API.Models
                 Password = registerUser.Password
             };
 
-            _context.Users.Add(user);
-            SaveUser();
+            await _context.Users.AddAsync(user);
+            await SaveUser();
 
             return user;
         }
 
-        public void SaveUser()
+        public async Task SaveUser()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateUser(Guid id, UserRegister updateUser)
+        public async Task UpdateUser(Guid id, UserRegister updateUser)
         {
-            var user = GetUserById(id);
+            var user = await GetUserById(id);
 
             user.Name = updateUser.Name;
             user.Email = updateUser.Email;
             user.Password = updateUser.Password;
 
             _context.Users.Update(user);
-            SaveUser();
+            await SaveUser();
         }
     }
 }
