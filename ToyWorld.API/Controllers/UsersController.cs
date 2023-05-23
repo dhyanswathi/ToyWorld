@@ -19,37 +19,36 @@ namespace ToyWorld.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<ActionResult<List<User>>> GetUsers()
         {
-            var result = _repo.GetAllUsers().ToList();
+            var result = await _repo.GetAllUsers();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(Guid id)
+        public async Task<ActionResult<User?>> GetUser(Guid id)
         {
-            try
+            var user = await _repo.GetUserById(id);
+
+            if (user == null)
             {
-                var user = _repo.GetUserById(id);
-                return Ok(user);
+                return NotFound("A user with this id do not exist");
             }
-            catch (Exception ex)
-            {
-                return NotFound(ex.ToString());
-            }
+
+            return Ok(user);
         }
 
         [HttpPost("register")]
-        public IActionResult PostUser(UserRegister user)
+        public async Task<ActionResult> PostUser(UserRegister user)
         {
-            var result = _repo.Register(user);
+            var result = await _repo.Register(user);
             return Created("", result);
         }
 
         [HttpPost("login")]
-        public IActionResult LoginUser(UserLogin userLogin)
+        public async Task<ActionResult> LoginUser(UserLogin userLogin)
         {
-            var result = _repo.GetAllUsers();
+            var result = await _repo.GetAllUsers();
             var user = result.FirstOrDefault(x => x.Email == userLogin.Email);
 
             if (user != null && user.Password == userLogin.Password)

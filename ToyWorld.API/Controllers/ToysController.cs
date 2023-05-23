@@ -23,33 +23,37 @@ namespace ToyWorld.API.Controllers
         }
 
         [HttpGet]
-        public List<ToyResponse> GetToys()
+        public async Task<ActionResult<List<ToyResponse>>> GetToys()
         {
-            return _repo.GetAllToys().ToList();
+            var toys = await _repo.GetAllToys();
+            var toyResponses = toys.Select(x => new ToyResponse()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Image = x.Image
+            });
+
+            return Ok(toyResponses);
         }
 
         [HttpGet("Id")]
-        public Toy? GetToyById(Guid Id)
+        public async Task<ActionResult<Toy?>> GetToyById(Guid Id)
         {
-            var toy = _repo.GetToy(Id);
+            var toy = await _repo.GetToy(Id);
 
             if (toy == null)
             {
-                return new Toy();
+                return NotFound("A toy with this id do not exist");
             }
 
-            return new Toy()
-            {
-                Name = toy.Name,
-                Description = toy.Description,
-                Image = toy.Image
-            };
+            return Ok(toy);
         }
 
         [HttpPost]
-        public IActionResult AddToy(ToyRequest toyDto)
+        public async Task<ActionResult> AddToy(ToyRequest toyDto)
         {
-            var result = _repo.CreateToy(toyDto);
+            var result = await _repo.CreateToy(toyDto);
             return Created("", result);
         }
 
@@ -63,23 +67,24 @@ namespace ToyWorld.API.Controllers
         }
 
         [HttpDelete]
-        public void DeleteStudent(Guid Id)
+        public async Task<ActionResult> DeleteStudent(Guid Id)
         {
-            _repo.DeleteToy(Id);
+            await _repo.DeleteToy(Id);
+            return NoContent();
         }
 
         [HttpPut]
         [Route("image/{id}")]
-        public async Task<ActionResult> AddCv([FromForm] FileUploadModel file, Guid id)
+        public async Task<ActionResult> AddImage([FromForm] FileUploadModel file, Guid id)
         {
             if ( _repo.GetToy(id) == null)
             {
-                return NotFound();
+                return BadRequest("A toy with this id does not exist");
             }
 
             try
             {
-                 _repo.UploadImage(file, id);
+                await _repo.UploadImage(file, id);
 
                 return NoContent();
             }
