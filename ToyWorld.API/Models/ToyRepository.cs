@@ -54,7 +54,15 @@ namespace ToyWorld.API.Models
             var stream = new MemoryStream();
             model.CopyTo(stream);
 
-            return stream.ToArray();
+            if (stream.Length < 4194302)
+            {
+                return stream.ToArray();
+            }
+            else
+            {
+                throw new Exception();
+            }
+            
         }
 
         public async Task UploadImage(FileUploadModel model, Guid id)
