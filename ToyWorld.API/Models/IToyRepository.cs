@@ -5,7 +5,7 @@ namespace ToyWorld.API.Models
     public interface IToyRepository 
     {
         Task SaveToy();
-        Task<List<ToyResponse>> GetAllToys();
+        Task<List<Toy>> GetAllToys();
         Task<Toy?> GetToy(Guid id);
         Task<Toy> CreateToy(ToyRequest request);
         Task DeleteToy(Guid id);

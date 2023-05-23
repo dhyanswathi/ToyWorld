@@ -1,4 +1,5 @@
-﻿using ToyWorld.API.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using ToyWorld.API.DTO;
 
 namespace ToyWorld.API.Models
 {
@@ -10,7 +11,7 @@ namespace ToyWorld.API.Models
             _context = context;
         }
 
-        public Toy CreateToy(ToyRequest request)
+        public async Task<Toy> CreateToy(ToyRequest request)
         {
             var toy = new Toy()
             {
@@ -20,36 +21,32 @@ namespace ToyWorld.API.Models
                 UserId = request.UserId,
             };
 
-            _context.Toys.Add(toy);
-            SaveToy();
+            await _context.Toys.AddAsync(toy);
+            await SaveToy();
             return toy;
         }
 
-        public void DeleteToy(Guid id)
+        public async Task DeleteToy(Guid id)
         {
-            var toy = GetToy(id);
+            var toy = await GetToy(id);
             _context.Toys.Remove(toy);
+            await SaveToy();
         }
 
-        public IEnumerable<ToyResponse> GetAllToys()
+        public async Task<List<Toy>> GetAllToys()
         {
-            return _context.Toys.Select(x => new ToyResponse() 
-            { 
-                Id = x.Id, 
-                Name = x.Name, 
-                Description = x.Description,
-                Image = x.Image
-            }).ToList();
+            var toys = await _context.Toys.ToListAsync();
+            return toys;
         }
 
-        public Toy? GetToy(Guid id)
+        public async Task<Toy?> GetToy(Guid id)
         {
-            return _context.Toys.FirstOrDefault(x => x.Id == id);
+            return await _context.Toys.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public void SaveToy()
+        public async Task SaveToy()
         {
-            _context.SaveChanges();
+           await _context.SaveChangesAsync();
         }
 
         public Byte[] AddImage(IFormFile model)
@@ -60,12 +57,12 @@ namespace ToyWorld.API.Models
             return stream.ToArray();
         }
 
-        public void UploadImage(FileUploadModel model, Guid id)
+        public async Task UploadImage(FileUploadModel model, Guid id)
         {
-            var toy = GetToy(id);
+            var toy = await GetToy(id);
            var stream = AddImage(model.FileDetails);
             toy.Image = stream;
-            SaveToy();
+            await SaveToy();
 
         }
     }
