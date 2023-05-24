@@ -8,9 +8,11 @@ namespace ToyWorld.API.Services
     public class EmailService : IEmailService
     {
         private readonly IConfiguration _config;
-        public EmailService(IConfiguration config)
+        private readonly IToyRepository _repo;
+        public EmailService(IConfiguration config, IToyRepository repo)
         {
             _config = config;
+            _repo = repo;   
         }
 
         public async Task SendEmail(MailRequest request)
@@ -20,8 +22,14 @@ namespace ToyWorld.API.Services
             email.To.Add(MailboxAddress.Parse(request.ToEmail));
             email.Subject = request.Subject;
 
+            var toy = _repo.GetToy(request.ToyId).Result;
+
             var builder = new BodyBuilder();
             builder.TextBody = request.Body;
+            if (toy != null)
+            {
+                builder.Attachments.Add($"{toy.Name}.png", toy.Image, new ContentType("image", "png"));
+            }
 
             email.Body = builder.ToMessageBody();
 

@@ -11,7 +11,7 @@ namespace ToyWorld.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ToysController : ControllerBase
     {
         private IToyRepository _repo;
@@ -82,17 +82,9 @@ namespace ToyWorld.API.Controllers
                 return BadRequest("A toy with this id does not exist");
             }
 
-            try
-            {
-                await _repo.UploadImage(file, id);
+            await _repo.UploadImage(file, id);
 
-                return NoContent();
-            }
-            catch (Exception)
-            {
-                return BadRequest("File too big, 4Mb limit");
-            }
-
+            return NoContent();
         }
     }
 }
