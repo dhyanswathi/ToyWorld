@@ -37,10 +37,10 @@ namespace ToyWorld.API.Controllers
             return Ok(toyResponses);
         }
 
-        [HttpGet("Id")]
-        public async Task<ActionResult<Toy?>> GetToyById(Guid Id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Toy?>> GetToyById(Guid id)
         {
-            var toy = await _repo.GetToy(Id);
+            var toy = await _repo.GetToy(id);
 
             if (toy == null)
             {
@@ -66,10 +66,10 @@ namespace ToyWorld.API.Controllers
             return Ok();
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteStudent(Guid Id)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteStudent(Guid id)
         {
-            await _repo.DeleteToy(Id);
+            await _repo.DeleteToy(id);
             return NoContent();
         }
 
@@ -77,7 +77,7 @@ namespace ToyWorld.API.Controllers
         [Route("image/{id}")]
         public async Task<ActionResult> AddImage([FromForm] FileUploadModel file, Guid id)
         {
-            if ( _repo.GetToy(id) == null)
+            if (await _repo.GetToy(id) == null)
             {
                 return BadRequest("A toy with this id does not exist");
             }
