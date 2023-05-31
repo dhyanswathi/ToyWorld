@@ -42,6 +42,13 @@ dotnet run
 **DELETE** */Toys/{id}* - This endpoint **Deletes** one specific toy using the toy's id<br>
 **POST** */Toys/sendEmail* - This endpoint allows to send email to the person who posted the toy showing the interest to exchange toy<br>
 
+ ## Users
+
+**GET** */Users* - This endpoint **Gets** all users stored in our database.<br>
+**GET** */Users/{id}* - This endpoint **Gets** one specific user using the user;s id.<br>
+**POST** */Users/register* - This endpoint **Posts** allows a user to signup<br>
+**POST** */Users/login* - This endpoint allows to authenticate the user during login process<br>
+
 ## Running the app
 After you have the API and DB up and running, go to the frontend repo (https://github.com/dhyanswathi/ToyWorld-Front-end) and follow the instructions in readme file there.
 
